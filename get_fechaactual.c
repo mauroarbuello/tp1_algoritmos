@@ -1,24 +1,5 @@
 #include <time.h>
-
-typedef struct fecha{int year;
-					int month;
-					int day;
-					}fecha_t
-
-typedef struct hora{int hh;
-					int mm;
-					double ss;
-					}hora_t
-
-typedef struct fix{char nombre[MAX_NOMBRE];
-					struct fecha_t fecha;
-					struct hora_t hora;
-					double latitud;
-					double longitud;
-					/* Aca hay que completar los campos necesarios */			
-					
-					}fix_t;
-					
+#include <fix.h>
 
 void get_fechaactual(struct fix_t *fix){
 	
