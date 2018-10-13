@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <fix.h>
+
 #define STR_HELP_1 "-h"
 #define STR_HELP_2 "--help"
 #define STR_NAME_1 "-n"
@@ -12,25 +14,6 @@
 #define STR_MONTH_2 "--month"
 #define STR_DAY_1 "-d"
 #define STR_DAY_2 "--day"
-
-typedef struct fecha{int year;
-					int month;
-					int day;
-					}fecha_t
-
-typedef struct hora{int hh;
-					int mm;
-					double ss;
-					}hora_t
-
-typedef struct fix{char nombre[MAX_NOMBRE];
-					struct fecha_t fecha;
-					struct hora_t hora;
-					double latitud;
-					double longitud;
-					/* Aca hay que completar los campos necesarios */			
-					
-					}fix_t;
 
 	
 
