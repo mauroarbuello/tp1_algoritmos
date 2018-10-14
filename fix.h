@@ -1,23 +1,24 @@
 #include <stdlib.h>
 
-#define TXT_CAL_INVALIDO 		"Inválido"
-#define TXT_CAL_FIX_GPS 		"Fix GPS"
-#define TXT_CAL_FIX_DGPS 		"Fix DGPS"
-#define TXT_CAL_FIX_PPS 		"Fix PPS"
-#define TXT_CAL_RTK 				"Real Time Kinematic"
-#define TXT_CAL_RTK_FLOAT 	"Float Real Time Kinematic"
-#define TXT_CAL_DEAD_RECK		"Estimado"
-#define TXT_CAL_MANUAL 			"Manual"
-#define TXT_CAL_SIMULATION	"Simulación"
+#define TXT_CAL_INVALIDO 	"Fix Inválido"
+#define TXT_CAL_FIX_GPS 	"Fix GPS"
+#define TXT_CAL_FIX_DGPS 	"Fix DGPS"
+#define TXT_CAL_FIX_PPS 	"Fix PPS"
+#define TXT_CAL_RTK 		"Fix Real Time Kinematic"
+#define TXT_CAL_RTK_FLOAT 	"Fix Float Real Time Kinematic"
+#define TXT_CAL_DEAD_RECK	"Fix Estimado"
+#define TXT_CAL_MANUAL 		"Fix Manual"
+#define TXT_CAL_SIMULATION	"Fix Simulación"
 
-#define TXT_ST_OK								"Correcto"
-#define TXT_ST_ERR_DATO_INCOMP	"Dato incompleto"
+#define TXT_ST_OK			"Correcto"
+#define TXT_ST_ERR_DATO_INCOMP		"Dato incompleto"
 #define TXT_ST_ERR_PUNT_NULL		"Puntero nulo"
+#define TXT_ST_ERR_FECHA_INVALIDA 	"Fecha ingresa invalida. Se utilizará la fecha del sistema."
 
-typedef enum status{ ST_OK, ST_ERR_DATO_INCOMP, ST_ERR_PUNT_NULL}status_t //estados posibles dentro de todo el proyecto, hay que ir agregando
+typedef enum status{ ST_OK, ST_ERR_DATO_INCOMP, ST_ERR_PUNT_NULL, ST_ERR_FECHA_INVALIDA}status_t //estados posibles dentro de todo el proyecto, hay que ir agregando
 
 const char dic_status[][MAX_STR]{
-	TXT_ST_OK, TXT_ST_ERR_DATO_INCOMP, TXT_ST_ERR_PUNT_NULL}
+	TXT_ST_OK, TXT_ST_ERR_DATO_INCOMP, TXT_ST_ERR_PUNT_NULL, TXT_ST_ERR_FECHA_INVALIDA}
 
 typedef struct fecha{	int year;	//estructura para la fecha
 			int month;
