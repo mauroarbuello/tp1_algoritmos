@@ -15,11 +15,15 @@
 #define STR_DAY_1 "-d"
 #define STR_DAY_2 "--day"
 
-	
-
 bool procesar_argv(int argc, char *argv[], struct fix_t *fix){
 	
 	size_t i;
+	char* ptemp; //puntero a char auxiliar
+	size_t ntemp; //numero para guardar los strtod temporalmente
+	struct fecha_t fecha_actual; //guardo la fecha actual en una struct fecha_t
+	status_t st; //guardo la informacion del estado
+	
+	get_fechaactual(&fecha_actual);//obtengo la fechaactual y lo guarda en fecha
 	
 	for(i=1;i<argc;i++){
 		if (strcmp(argv[i],STR_HELP_1)==0 || strcmp(argv[i],STR_HELP_2)==0)
@@ -28,53 +32,60 @@ bool procesar_argv(int argc, char *argv[], struct fix_t *fix){
 		else if (strcmp(argv[i],STR_NAME_1)==0 || strcmp(argv[i],STR_NAME_2)==0)
 			strcpy(fix->nombre,argv[i+1]);
 		
-		else if ((!strcmp(argv[i],STR_FECHA_1) || !strcmp(argv[i],STR_FECHA_2))
-			procesar_fecha(argv[i],p2info);
+		else if ((!strcmp(argv[i],STR_FECHA_1) || !strcmp(argv[i],STR_FECHA_2)){
+			if ( (st = procesar_cad_fecha(argv[i],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK)
+				fprintf(stderr,"%s: %s\n",MSJ_ERR_PREFIJO,dic_status[st]);
 		
-		else if ((!strcmp(argv[i],STR_YEAR_1) || !strcmp(argv[i],STR_YEAR_2))
-			*p2info.fecha.year = argv[i+1];
+		else if ((!strcmp(argv[i],STR_YEAR_1) || !strcmp(argv[i],STR_YEAR_2)){
+			ntemp = strtod(argv[i+1],&temp);
+			if ( (*temp == '\n' || *temp == '\0') && ( ntemp < fecha.year) ) //compruebo que no sea un año mayor a este
+				fix->fecha.year = ntemp;
 		
 		else if ((!strcmp(argv[i],STR_MONTH_1) || !strcmp(argv[i],STR_MONTH_2))
-			*p2info.fecha.month = argv[i+1];
+			ntemp = strtod(argv[i+1],&temp);
+			if ( (*temp == '\n' || *temp == '\0') && ( ntemp < 13 && ntemp > 0)  )
+				fix->fecha.month = ntemp;
 		
-		else if ((!strcmp(argv[i],STR_DAY_1) || !strcmp(argv[i],STR_DAY_2))
-			strcpy(*p2info.fecha.day = argv[i+1];
+		else if ((!strcmp(argv[i],STR_DAY_1) || !strcmp(argv[i],STR_DAY_2)){
+			ntemp = strtod(argv[i+1],&temp);
+			if ( (*temp == '\n' || *temp == '\0') && ( ntemp < 32 && ntemp > 0) )
+				fix->fecha.day = ntemp;
+		}
 	}
 		
 }
 
-
-bool todigits(char*str){
-	
-	size_t largo = strlen(str);
-	
-	if (!str)
-		return false;
-	
-	for(size_t i=0; i<largo; i++){
-		if (!isdigit(str[i]))
-			for(size_t j=i; j<largo; j++)
-				*(str+j)=*(str+j+1);
-	}
-	
-	return true;
-}
-
-bool procesar_fecha(char *fecha){
+status_t procesar_cad_fecha(char *fecha, int* year, int* month, int* day){
 	
 	char* temp;
-
-	fecha = strtol(fecha,&temp,10);
-	if (*temp != '\n' && *temp != '\0')
-		return false;
+	long int ntemp; //numero temporario donde almaceno la fecha como 20180925 (ejemplo)
+	struct fecha_t fecha_actual, fecha_aux; //en fecha_aux guardo los datos de la fecha y si son validos los guardo en los punteros que me pasaron
 	
-	*p2info.fecha.day = fecha%10 + 10*(fecha-fecha%10)%10;
-	fecha -= fecha%100;
-	fecha /= 100;
-	*p2info.fecha.month = fecha%10 + 10*(fecha-fecha%10)%10;
-	fecha -= fecha%100;
-	fecha /= 100;
-	*p2info.fecha.year = fecha;
+	get_fechaactual(&fecha_actual);
+	
+	ntemp = strtol(fecha,&temp,10);
+	if (*temp != '\n' && *temp != '\0')
+		return ST_ERR_FECHA_INVALIDA;
+	
+	if ( (fecha_aux.day = ntemp%100) > 31 && fecha_aux.day > 0){ //me fijo que sea un dia valido entre 1 y 31
+		return ST_ERR_FECHA_INVALIDA;
+	
+	ntemp /= 100; //lo divido por 100 para sacarme el dia de encima
+	
+	if ( (fecha_aux.month = ntemp%100) > 12 && fecha_aux.month > 0) //me fijo que sea un dia valido entre 1 y 31
+		return ST_ERR_FECHA_INVALIDA;
+
+	ntemp /= 100; //me saco de encima el mes
+	
+	if ( (fecha_aux.year = ntemp) > fecha_actual.year) //me fijo que sea un dia valido entre 1 y 31
+		return ST_ERR_FECHA_INVALIDA;
+	//si no hubo ningun dato fuera de rango, guardo la fecha en las variables que me pusieron por puntero
+		
+	*day = fecha_aux.day;
+	*month = fecha_aux.month;
+	*year = fecha_aux.year;
+	
+	return ST_OK; //retorno un OK (todo salio bien)
 	
 }
 	
