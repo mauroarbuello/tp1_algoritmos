@@ -1,5 +1,7 @@
 #include <stdlib.h>
 
+#define MSJ_ERR_PREFIJO 	"ERROR"
+
 #define TXT_CAL_INVALIDO 	"Fix Inválido"
 #define TXT_CAL_FIX_GPS 	"Fix GPS"
 #define TXT_CAL_FIX_DGPS 	"Fix DGPS"
