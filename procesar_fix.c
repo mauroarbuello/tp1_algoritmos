@@ -213,4 +213,4 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	return ST_OK;
 	
-}	
+}
