@@ -60,7 +60,7 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	size_t i=0;
 	
 	//comienzo de procesar la hora del fix
-	cad_entrecomas(ptr2coma,cadena_aux,i); printf("%s\n",cadena_aux);
+	cad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -213,7 +213,4 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	return ST_OK;
 	
-}
-	
-	
-	
+}	
