@@ -1,87 +1,138 @@
-#define START_XML "<?"
-#define MSJ_XML "xml"
-#define MSJ_VERSION "version="
-#define MSJ_ENCODING "encoding="
-#define END_XML "?>"
-#define START_GPX "<gpx" //a proposito la falta de >
-#define END_GPX "</gpx>"
-#define MSJ_VERSION "version="
-#define MSJ_CREATOR "creator="
-#define MSJ_XMLNS "xmlns="
-#define START_METADATA "<metadata>"
-#define END_METADATA "</metadata>"
-#define START_NAME "<name>"
-#define END_NAME "</name>"
-#define START_TIME "<time>"
-#define END_TIME "</time>"
-#define START_TRK "<trk>"
-#define END_TRK "</trk>"
-#define START_TRKSEG "<trkseg>"
-#define END_TRKSEG "</trkseg>"
-#define START_TRKPT "<trkpt" //a proposito la falta de >
-#define END_TRKPT "</trkpt>"
-#define MSJ_LAT "lat="
-#define MSJ_LON "lon="
-#define CLOSE ">"
-#define START_ELE "<ele>"
-#define END_ELE "</ele>"
+#include <stdio.h>
+#include "fix.h"
+//definicion de los chars a usar
+#define CHAR_START 		"<"
+#define CHAR_END 		">"
+#define CHAR_QUESTION 	"?"
+#define CHAR_COMILLAS 	"\""
+#define CHAR_EQUAL 		"="
+#define CHAR_BAR 		"/"
+#define CHAR_FECHA_SEP	"-"
+#define CHAR_HORA_SEP	":"
+#define CHAR_FECHA_END	"T"
+#define CHAR_HORA_END 	"Z"
 
-//puede que haya que agregar mas argumentos
-void print_salida (struct fix_t, struct fecha_t, struct hora_t) {
+//definicion de las cadenas a usar
+#define MSJ_XML 			"xml"
+#define MSJ_VERSION 		"version"
+#define MSJ_ENCODING		"encoding"
+#define MSJ_GPX 			"gpx"
+#define MSJ_VERSION 		"version"
+#define MSJ_CREATOR 		"creator"
+#define MSJ_XMLNS 			"xmlns"
+#define MSJ_METADATA 		"metadata"
+#define MSJ_NAME 			"name"
+#define MSJ_TIME			"time"
+#define MSJ_TRK 			"trk"
+#define MSJ_TRKSEG 			"trkseg"
+#define MSJ_TRKPT 			"trkpt"
+#define MSJ_LAT 			"lat"
+#define MSJ_LON 			"lon"
+#define MSJ_ELE 			"ele"
 
-  printf("%s %s %s"%.1f" %s"%s"%s\n",
-  START_XML, MSJ_XML, MSJ_VERSION, ***version***, MSJ_ENCODING, ***encoding***, END_XML);
+//definicion de las constantes
+#define VERSION_XML	"1.0"
+#define VERSION_GPX	"1.1"
+#define ENCODING 	"UTF -8"
+#define CREATOR 	"95.11 TP1 - Grupo LPL"
+#define XMLNS		"http://www.topografix.com/GPX/1/1"
 
-  //---gpx
-  printf("%s %s"%.1f" %s"%s" %s"%s"\n",
-  START_GPX, MSJ_VERSION, version, MSJ_CREATOR, ***creator***, MSJ_XMLNS, xmlns);
+void print_encabezado(void){  
+	//imprimir primer linea
+	printf("%s%s %s %s %s%s%s%s %s%s%s%s%s%s\n\n",
+	CHAR_START, CHAR_QUESTION, 
+	MSJ_XML, 
+	MSJ_VERSION, CHAR_EQUAL, CHAR_COMILLAS,VERSION_XML,CHAR_COMILLAS,
+	MSJ_ENCODING,CHAR_EQUAL,CHAR_COMILLAS,ENCODING,CHAR_COMILLAS
+	CHAR_QUESTION, CHAR_END
+	);
+	//imprimir la segunda linea
+	printf("%s%s %s %s%s%s%s %s %s%s%s%s %s %s%s%s%s%s\n",
+	CHAR_START,
+	MSJ_GPX,
+	MSJ_VERSION,CHAR_EQUAL,CHAR_COMILLAS,VERSION_GPX,CHAR_COMILLAS,
+	MSJ_CREATOR,CHAR_EQUAL,CHAR_COMILLAS,CREATOR,CHAR_COMILLAS,
+	MSJ_XMLNS, CHAR_EQUAL,CHAR_COMILLAS,XMLNS,CHAR_COMILLAS,
+	CHAR_END);
+	
+}
 
-    //---metadata
-    printf ("\t%s\n", START_METADATA);
+void print_metadata(struct fix_t * fix){
+	
+	printf("\t%s%s%s\n",
+	CHAR_START,	MSJ_METADATA, CHAR_END);	//imprime la primer linea de metadata
+	
+	printf("\t\t%s%s%s%s%s%s%s%s\n",
+	CHAR_START,MSJ_NAME, CHAR_END,
+	fix->nombre,
+	CHAR_START,CHAR_BAR,MSJ_NAME, CHAR_END);	//imprime el nombre del archivo
+	
+	printf("\t\t%s%s%s%d%s%02d%s%02d%s%02d%s%02d%s%02d%s%s%s%s%s\n",
+	CHAR_START,MSJ_TIME, CHAR_END,
+	fix->fecha.year,CHAR_FECHA_SEP,fix->fecha.month,CHAR_FECHA_SEP,fix->fecha.day,CHAR_FECHA_END, 	//imprime la fecha
+	fix->hora.hh,CHAR_HORA_SEP,fix->hora.mm,CHAR_HORA_SEP,(int)fix->hora.ss,CHAR_HORA_END, 				//imprime la hora
+	CHAR_START,CHAR_BAR,MSJ_TIME, CHAR_END);	//imprime la fecha y hora
+	
+	printf("\t%s%s%s%s\n",
+	CHAR_START,	CHAR_BAR, MSJ_METADATA, CHAR_END);	//imprime la primer ultima de metadata
 
-      //name. poner un predefinido y si mandan por argv se pisa.
-      printf("\t\t%s%s%s\n", START_NAME, ***name***, END_NAME);
+}
 
-      // time --- hay HC, sacarlos
-      printf ("\t\t%s%d-%d-%dT%d:%d:%dZ%s\n",
-      START_TIME, fix->fecha.year, fix->fecha.month, fix->fecha.day,
-      fix->hora.hh , fix->hora.mm, fix->hora.ss, END_TIME);
 
-    printf("\t%s\n", END_METADATA);
+void print_trk_start(void){
+	
+	printf("\t%s%s%s\n",
+	CHAR_START,	MSJ_TRK, CHAR_END);	//imprime la primer linea de trk
+	
+	printf("\t\t%s%s%s\n",
+	CHAR_START,	MSJ_TRKSEG, CHAR_END);	//imprime la primer linea de trkseg
+	
+	//ejemplo <trk>
+	//			<trkseg>
+}
 
-    //---trk
-    printf("\t%s\n", START_TRK);
+void print_trkpt(struct fix_t* fix){
+	
+	printf("\t\t\t%s%s %s%s%s%lf%s %s%s%s%lf%s%s\n",
+	CHAR_START, MSJ_TRKPT, 
+	MSJ_LAT, CHAR_EQUAL, CHAR_COMILLAS,fix->latitud,CHAR_COMILLAS,
+	MSJ_LON, CHAR_EQUAL, CHAR_COMILLAS,fix->longitud,CHAR_COMILLAS,
+	CHAR_END);	//imprime la primer linea de trkpt	ejemplo: <trkpt lat="19.918633" lon="-77.709016">
+	
+	printf("\t\t\t\t%s%s%s%lf%s%s%s%s\n",
+	CHAR_START,MSJ_ELE, CHAR_END,
+	fix->elevacion,
+	CHAR_START,CHAR_BAR,MSJ_ELE, CHAR_END); //imprime la elevacion ejemplo: <ele>0.000000</ele>
+	
+	printf("\t\t\t\t%s%s%s%d%s%02d%s%02d%s%02d%s%02d%s%06.03lf%s%s%s%s%s\n",
+	CHAR_START,MSJ_TIME, CHAR_END,
+	fix->fecha.year,CHAR_FECHA_SEP,fix->fecha.month,CHAR_FECHA_SEP,fix->fecha.day,CHAR_FECHA_END, 	//imprime la fecha
+	fix->hora.hh,CHAR_HORA_SEP,fix->hora.mm,CHAR_HORA_SEP,fix->hora.ss,CHAR_HORA_END, 				//imprime la hora
+	CHAR_START,CHAR_BAR,MSJ_TIME, CHAR_END);	//imprime la fecha y hora ejemplo: <time>2018-09-30T11:28:36.854Z</time>
+	
+	printf("\t\t\t%s%s%s%s\n",
+	CHAR_START,CHAR_BAR,MSJ_TRKPT,CHAR_END); //imprime la ultima linea de trkpt ejemplo: </trkpt>
+	
+	//la funcion imprime los datos de un fix
+	
+}
 
-      //---trkseg
-      printf("\t\t%s\n", START_TRKSEG);
+void print_trk_end(void){
+	
+	printf("\t\t%s%s%s%s\n",
+	CHAR_START,CHAR_BAR, MSJ_TRKSEG, CHAR_END);	//imprime la ultima linea de trkseg
+	
+	printf("\t%s%s%s\n",
+	CHAR_START, CHAR_BAR, MSJ_TRK, CHAR_END);	//imprime la ultima linea de trk
+	
 
-        //---trkpt --- aca empiezan los datos
-        /* definir como sabe el programa que se llego al ultimo dato*/
-        for (i = 0, /*definir condicion*/, i++) {
+	//ejemplo 	</trkseg>
+	//		</trk>
+}
 
-          //lat y lon
-        printf ("\t\t\t%s %s"%d" %s"%d"%c",
-        START_TRKPT, MSJ_LAT, fix->latitud, MSJ_LON, fix->longitud, CLOSE);
-
-          // --trkpt --> elevacion
-          printf("\t\t\t\t%s%f%s\n", START_ELE, fix->elevacion, END_ELE);
-
-          //--trkpt -->time (hay HC en "T" y "Z")
-          printf ("\t\t\t\t%s%d-%d-%dT%d:%d:%dZ%s\n",
-          START_TIME, fix->.fecha.year, fix->.fecha.month, fix->.fecha.day,
-          fix->.hora.hh , fix->.hora.mm, fix->.hora.ss, END_TIME);
-
-        //---end trkpt
-        printf("\t\t\t%s\n", END_TRKPT);
-      } //end for
-
-      //---end trkseg
-      printf("\t\t%s\n", END_TRKSEG);
-
-    //---end trk
-    printf("\t%s\n", END_TRK);
-
-  //end gpx
-  printf("%s\n", END_GPX);
-
-}//end function
+void print_acabado(void){
+	
+	printf("s%s%s%s\n",
+	CHAR_START,CHAR_BAR, MSJ_GPX, CHAR_END);	//imprime la ultima linea de gpx ejemplo </gpx>
+	
+}
