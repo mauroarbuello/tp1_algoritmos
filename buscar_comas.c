@@ -24,15 +24,15 @@ status_t search_coma ( const char * cadena, char ** arr_ptr []) {
   return ST_OK;
 }
 */
-
+/*
 // intento para que devuekva un puntero al arreglo de punteros
 char ** search_coma ( const char * cadena) {
 
   int j = 0;
   int i;
-  const char * coma = ",";
+  const char coma = ",";
   char * ptr2coma [MAX_STR];
-  char ** ptr2ptrarray;
+  char *(*ptr2ptrarray)[MAX_STR];
 
   for (i = 0; cadena[i] != '\0'; i++) {
     if ( cadena[i] == ',') {
@@ -42,24 +42,44 @@ char ** search_coma ( const char * cadena) {
 
     }
   }
-  *ptr2ptrarray = ptr2coma;
+  ptr2ptrarray = ptr2coma[0];
   return ptr2ptrarray;
+}
+*/
+
+status_t search_coma ( const char * cadena, char * (*ptr2ptrarray)[MAX_STR]) {
+  int j = 0;
+  int i;
+  const char coma = ',';
+  char * ptr2coma [MAX_STR];
+
+  for (i = 0; cadena[i] != '\0'; i++) {
+    if ( cadena[i] == coma) {
+
+    *(ptr2coma + j) = (cadena [i]);
+    j++;
+
+    }
+  }
+  ptr2ptrarray = &ptr2coma;
+  return ST_OK;
 }
 
 
 // pruebas para ver los valores que devuelve la funcion
 int main (void) {
-  char **arr_ptr2 [MAX_STR];
+  char * (*arr_ptr2) [MAX_STR];
   //char * ptr[MAX_STR];
   const char cadena [90] = "$GPGGA ,112836.854 ,1955.118 , N1";
-  *arr_ptr2 = search_coma (cadena);
-  printf ("|%c|\n", arr_ptr2);
-  printf ("|%p|\n", arr_ptr2);
-  printf ("|%c|\n", *arr_ptr2);
-  printf ("|%p|\n", *arr_ptr2);
-  printf ("|%c|\n", *(cadena + 7));
-  printf ("|%p|\n", (cadena + 7));
+  search_coma (cadena, &arr_ptr2);
+  //printf ("|%c|\n", arr_ptr2);
+  //printf ("|%p|\n", arr_ptr2);
+  printf ("valor arr_ptr2:      |%c|\n",     *(arr_ptr2));
+  printf ("direccion arr_ptr2:  |%p|\n",  arr_ptr2);
+  printf ("valor cadena:        |%c|\n",       *(cadena + 7));
+  printf ("direccion cadena:    |%p|\n",    (cadena + 7));
   //printf ("|%c|\n", *(cadena + 7));
   //printf ("%p\n", (cadena + 7));
   //printf ("%p\n", *(cadena + 7));
 }
+
