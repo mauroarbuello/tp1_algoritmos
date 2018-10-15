@@ -69,30 +69,36 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 		if( (strcmp(argv[i],STR_HELP_1)==0) || (strcmp(argv[i],STR_HELP_2)==0))
 			printf("%s\n",MSJ_HELP);
 		
-		else if(( strcmp(argv[i],STR_NAME_1)==0 )|| (strcmp(argv[i],STR_NAME_2)==0))
+		else if( (strcmp(argv[i],STR_NAME_1)==0 ) || (strcmp(argv[i],STR_NAME_2)==0) )
 			strcpy(fix->nombre,argv[i+1]);
 		
-		else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0))
+		else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0) ){
 			if ( (st = procesar_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK)
 				fprintf(stderr,"%s: %s\n",MSJ_ERR_PREFIJO,MSJ_ERR_PREFIJO);
-		
-		else if( (strcmp(argv[i],STR_YEAR_1)==0) || (strcmp(argv[i],STR_YEAR_2)==0)){
-			ntemp = strtod(argv[i+1],&ptemp);
-			printf("Anio: %f\n",ntemp);
-			if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp <= fecha_actual.year) ) //compruebo que no sea un año mayor a este
-				fix->fecha.year = ntemp;
+		}
+		else if( (strcmp(argv[i],STR_YEAR_1)==0) || (strcmp(argv[i],STR_YEAR_2)==0) ){
+			if ( (i+1)<argc ){
+				ntemp = strtod(argv[i+1],&ptemp);
+				if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp <= fecha_actual.year) ) //compruebo que no sea un año mayor a este
+					fix->fecha.year = ntemp;
+			}
 		}
 			
-		else if( (strcmp(argv[i],STR_MONTH_1) ==0) || (strcmp(argv[i],STR_MONTH_2)==0)){
-			ntemp = strtod(argv[i+1],&ptemp);
-			if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 13 && ntemp > 0)  )
-				fix->fecha.month = ntemp;
+		else if( (strcmp(argv[i],STR_MONTH_1) ==0) || (strcmp(argv[i],STR_MONTH_2)==0) ){
+			if ( (i+1)<argc ){
+				ntemp = strtod(argv[i+1],&ptemp);
+				if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 13 && ntemp > 0)  )
+					fix->fecha.month = ntemp;
+			}
 		}
-		else if( (strcmp(argv[i],STR_DAY_1)==0) || (strcmp(argv[i],STR_DAY_2)==0)){
-			ntemp = strtod(argv[i+1],&ptemp);
-			if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 32 && ntemp > 0) )
-				fix->fecha.day = ntemp;
+		else if( (strcmp(argv[i],STR_DAY_1)==0) || (strcmp(argv[i],STR_DAY_2)==0) ){
+			if ( (i+1)<argc ){
+				ntemp = strtod(argv[i+1],&ptemp);
+				if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 32 && ntemp > 0) )
+					fix->fecha.day = ntemp;
+			}
 		}
 	}
 		
 }
+
