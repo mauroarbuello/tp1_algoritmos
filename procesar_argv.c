@@ -75,8 +75,10 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 			strcpy(fix->nombre,argv[i+1]);
 		
 		else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0) ){
-			if ( (st = procesar_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK)
-				fprintf(stderr,"%s: %s\n",MSJ_ERR_PREFIJO,MSJ_ERR_PREFIJO);
+			if ( (i+1) < argc){
+				if ( (st = procesar_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK )
+					fprintf(stderr,"%s: %s\n",MSJ_ERR_PREFIJO,MSJ_ERR_PREFIJO);
+			}
 		}
 		else if( (strcmp(argv[i],STR_YEAR_1)==0) || (strcmp(argv[i],STR_YEAR_2)==0) ){
 			if ( (i+1)<argc ){
