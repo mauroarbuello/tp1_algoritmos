@@ -37,6 +37,16 @@
 #define CREATOR 	"95.11 TP1 - Grupo LPL"
 #define XMLNS		"http://www.topografix.com/GPX/1/1"
 
+//prototipos de todas las funciones contenidas
+void print_encabezado(void);
+void print_metadata(struct fix_t * fix);
+void print_trk_start(void);
+void print_trkpt(struct fix_t* fix);
+void print_trk_end(void);
+void print_acabado(void);
+//fin de prototipos
+
+//comienzo del codigo de las funciones
 void print_encabezado(void){  
 	//imprimir primer linea
 	printf("%s%s %s %s %s%s%s%s %s%s%s%s%s%s\n\n",
@@ -122,7 +132,7 @@ void print_trk_end(void){
 	printf("\t\t%s%s%s%s\n",
 	CHAR_START,CHAR_BAR, MSJ_TRKSEG, CHAR_END);	//imprime la ultima linea de trkseg
 	
-	printf("\t%s%s%s\n",
+	printf("\t%s%s%s%s\n",
 	CHAR_START, CHAR_BAR, MSJ_TRK, CHAR_END);	//imprime la ultima linea de trk
 	
 
@@ -132,7 +142,7 @@ void print_trk_end(void){
 
 void print_acabado(void){
 	
-	printf("s%s%s%s\n",
+	printf("%s%s%s%s\n",
 	CHAR_START,CHAR_BAR, MSJ_GPX, CHAR_END);	//imprime la ultima linea de gpx ejemplo </gpx>
 	
 }
