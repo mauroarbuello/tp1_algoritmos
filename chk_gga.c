@@ -9,24 +9,17 @@
 
 
 int main (void) {
-  int c, val_chkgga; //devolver datos
+  int val_chkgga; //devolver datos
   int i, j; //contaores
-  char * ptr2start, ptr2end;
   char * ptr2coma;
-  char * ptr2$;
+  
   const char cadena [50] = "$GPGA,$A ,3 ,01";
   const char * coma = ",";
-  const char * pesos = "$";
   char chk_gga [MAX_4];//inicializar // para chequear que la entrada sea GGA
   size_t max_cmp4 = 4;
-
-//ptr2coma = strstr (cadena, coma); //HC
-
-
-
-/////while (c = fgets(cadena, MAX_STR, stdin) != NULL ) {
-
+  
   ptr2coma = strstr (cadena, coma);
+  
 printf ("%s\n", ptr2coma); //HC
   /*hay que validar el caso en que hay una ',' antes de la
   tercera posicion*/
