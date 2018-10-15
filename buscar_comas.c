@@ -5,8 +5,8 @@
 #include "fix.h"
 
 status_t search_coma (char * cadena, char ** ptr2ptrarray) {
-	int j = 0;
-	int i;
+	size_t j = 0;
+	size_t i;
 	const char coma = ',';
 
 	for (i = 0; cadena[i] != '\0' ; i++) {
