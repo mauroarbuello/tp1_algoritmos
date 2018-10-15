@@ -18,27 +18,28 @@
 #define STR_DAY_2 "--day"
 
 status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day);
-void get_fechaactual(struct fecha_t* fecha);
+void get_fechaactual(struct fecha_t* fecha, struct hora_t* hora);
 
 status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day){
 	
 	char* temp;
 	long int ntemp; //numero temporario donde almaceno la fecha como 20180925 (ejemplo)
-	struct fecha_t fecha_actual, fecha_aux; //en fecha_aux guardo los datos de la fecha y si son validos los guardo en los punteros que me pasaron
+	struct fecha_t fecha_actual, fecha_aux;	//en fecha_aux guardo los datos de la fecha y si son validos los guardo en los punteros que me pasaron
+	struct hora_t hora_actual;
 	
-	get_fechaactual(&fecha_actual);
+	get_fechaactual(&fecha_actual,&hora_actual);
 	
 	ntemp = strtol(fecha,&temp,10);
 	
 	if (*temp != '\n' && *temp != '\0')
 		return ST_ERR_FECHA_INVALIDA;
 	
-	if ( (fecha_aux.day = ntemp%100) > 31 && fecha_aux.day > 0) //me fijo que sea un dia valido entre 1 y 31
+	if ( (fecha_aux.day = ntemp%100) > 31 || fecha_aux.day > 0) //me fijo que sea un dia valido entre 1 y 31
 		return ST_ERR_FECHA_INVALIDA;
 	
 	ntemp /= 100; //lo divido por 100 para sacarme el dia de encima
 	
-	if ( (fecha_aux.month = ntemp%100) > 12 && fecha_aux.month > 0) //me fijo que sea un dia valido entre 1 y 31
+	if ( (fecha_aux.month = ntemp%100) > 12 || fecha_aux.month > 0) //me fijo que sea un dia valido entre 1 y 12
 		return ST_ERR_FECHA_INVALIDA;
 
 	ntemp /= 100; //me saco de encima el mes
@@ -61,9 +62,10 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 	char* ptemp; //puntero a char auxiliar
 	double ntemp; //numero para guardar los strtod temporalmente
 	struct fecha_t fecha_actual; //guardo la fecha actual en una struct fecha_t
+	struct hora_t hora_actual;
 	status_t st; //guardo la informacion del estado
 	
-	get_fechaactual(&(fecha_actual));//obtengo la fechaactual y lo guarda en fecha
+	get_fechaactual(&(fecha_actual),&(hora_actual));//obtengo la fechaactual y lo guarda en fecha
 	
 	for(i=1;i<argc;i++){
 		if( (strcmp(argv[i],STR_HELP_1)==0) || (strcmp(argv[i],STR_HELP_2)==0))
@@ -101,4 +103,3 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 	}
 		
 }
-
