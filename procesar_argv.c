@@ -19,6 +19,7 @@
 
 status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day);
 void get_fechaactual(struct fecha_t* fecha, struct hora_t* hora);
+void print_status(status_t st);
 
 status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day){
 	
@@ -29,23 +30,24 @@ status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day){
 	
 	get_fechaactual(&fecha_actual,&hora_actual);
 	
-	ntemp = strtol(fecha,&temp,10);
+	ntemp = strtol(fecha,&temp,10); // ntemp = yyyymmdd
 	
 	if (*temp != '\n' && *temp != '\0')
 		return ST_ERR_FECHA_INVALIDA;
 	
-	if ( (fecha_aux.day = ntemp%100) > 31 || fecha_aux.day < 1) //me fijo que sea un dia valido entre 1 y 31
+	if ( (fecha_aux.year = ntemp/10000) > fecha_actual.year) //me fijo que no sea un año mas grande que el actual
 		return ST_ERR_FECHA_INVALIDA;
 	
-	ntemp /= 100; //lo divido por 100 para sacarme el dia de encima
+	ntemp -= fecha_aux.year*10000; //saco el año, queda ntemp = mmdd
 	
-	if ( (fecha_aux.month = ntemp%100) > 12 || fecha_aux.month < 1) //me fijo que sea un dia valido entre 1 y 12
+	if ( (fecha_aux.month = ntemp/100) > 12 || fecha_aux.month < 1) //me fijo que sea un dia valido entre 1 y 12
 		return ST_ERR_FECHA_INVALIDA;
 
-	ntemp /= 100; //me saco de encima el mes
+	ntemp -= fecha_aux.month*100; //me saco de encima el mes, queda ntemp = dd
 	
-	if ( (fecha_aux.year = ntemp) > fecha_actual.year) //me fijo que sea un dia valido entre 1 y 31
+	if ( (fecha_aux.day = ntemp) > 31 || fecha_aux.day < 1 ) //me fijo que sea un dia valido entre 1 y 31
 		return ST_ERR_FECHA_INVALIDA;
+		
 	//si no hubo ningun dato fuera de rango, guardo la fecha en las variables que me pusieron por puntero
 		
 	*day = fecha_aux.day;
@@ -77,7 +79,10 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 		else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0) ){
 			if ( (i+1) < argc){
 				if ( (st = procesar_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK )
-					fprintf(stderr,"%s: %s\n",MSJ_ERR_PREFIJO,MSJ_ERR_PREFIJO);
+					print_status(st);
+			}
+			else {	st = ST_ERR_MISSING_ARG;
+					print_status(st);
 			}
 		}
 		else if( (strcmp(argv[i],STR_YEAR_1)==0) || (strcmp(argv[i],STR_YEAR_2)==0) ){
