@@ -34,12 +34,12 @@ status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day){
 	if (*temp != '\n' && *temp != '\0')
 		return ST_ERR_FECHA_INVALIDA;
 	
-	if ( (fecha_aux.day = ntemp%100) > 31 || fecha_aux.day > 0) //me fijo que sea un dia valido entre 1 y 31
+	if ( (fecha_aux.day = ntemp%100) > 31 || fecha_aux.day < 1) //me fijo que sea un dia valido entre 1 y 31
 		return ST_ERR_FECHA_INVALIDA;
 	
 	ntemp /= 100; //lo divido por 100 para sacarme el dia de encima
 	
-	if ( (fecha_aux.month = ntemp%100) > 12 || fecha_aux.month > 0) //me fijo que sea un dia valido entre 1 y 12
+	if ( (fecha_aux.month = ntemp%100) > 12 || fecha_aux.month < 1) //me fijo que sea un dia valido entre 1 y 12
 		return ST_ERR_FECHA_INVALIDA;
 
 	ntemp /= 100; //me saco de encima el mes
