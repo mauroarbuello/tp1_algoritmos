@@ -74,7 +74,9 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 			printf("%s\n",MSJ_HELP);
 		
 		else if( (strcmp(argv[i],STR_NAME_1)==0 ) || (strcmp(argv[i],STR_NAME_2)==0) )
-			strcpy(fix->nombre,argv[i+1]);
+			if ( (i+1) < argc){
+				strcpy(fix->nombre,argv[i+1]);
+			}
 		
 		else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0) ){
 			if ( (i+1) < argc){
