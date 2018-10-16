@@ -1,18 +1,17 @@
-status_t procesar_fix_hora (char **ptr2coma, struct fix_t *fix);
-status_t procesar_fix_latitud (char **ptr2coma, struct fix_t *fix);
-status_t procesar_fix_longitud (char **ptr2coma, struct fix_t *fix);
-status_t procesar_fix_calidad (char **ptr2coma, struct fix_t *fix);
-status_t procesar_fix_cant_sat (char **ptr2coma, struct fix_t *fix);
-status_t procesar_fix_hdop (char **ptr2coma, struct fix_t *fix);
-status_t procesar_fix_elevacion (char **ptr2coma, struct fix_t *fix);
-status_t procesar_fix_sep_geoide (char **ptr2coma, struct fix_t *fix);
+status_t procesar_fix_hora (char **ptr2coma, struct fix_t *, size_t i);
+status_t procesar_fix_latitud (char **ptr2coma, struct fix_t *fix, size_t i);
+status_t procesar_fix_longitud (char **ptr2coma, struct fix_t *fix, size_t i);
+status_t procesar_fix_calidad (char **ptr2coma, struct fix_t *fix, size_t i);
+status_t procesar_fix_cant_sat (char **ptr2coma, struct fix_t *fix, size_t i);
+status_t procesar_fix_hdop (char **ptr2coma, struct fix_t *fix, size_t i);
+status_t procesar_fix_elevacion (char **ptr2coma, struct fix_t *fix, size_t i);
+status_t procesar_fix_sep_geoide (char **ptr2coma, struct fix_t *fix, size_t i);
 
-status_t procesar_fix_hora (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_hora (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   cad_entrecomas (ptr2coma, cadena_aux, i);
 
@@ -38,12 +37,11 @@ status_t procesar_fix_hora (char **ptr2coma, struct fix_t *fix) {
   //si no hubo ningun dato fuera de rango, quedaron guardadas las variables bien, sigo con el siguiente dato
 }
 
-status_t procesar_fix_latitud (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_latitud (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   cad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
@@ -73,12 +71,11 @@ status_t procesar_fix_latitud (char **ptr2coma, struct fix_t *fix) {
   return ST_OK;
 }
 
-status_t procesar_fix_longitud (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_longitud (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   cad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
@@ -107,12 +104,11 @@ status_t procesar_fix_longitud (char **ptr2coma, struct fix_t *fix) {
   return ST_OK;
 }
 
-status_t procesar_fix_calidad (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_calidad (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   cad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
@@ -128,12 +124,11 @@ status_t procesar_fix_calidad (char **ptr2coma, struct fix_t *fix) {
   return ST_OK;
 }
 
-status_t procesar_fix_cant_sat (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_cant_sat (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   cad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
@@ -149,12 +144,11 @@ status_t procesar_fix_cant_sat (char **ptr2coma, struct fix_t *fix) {
   return ST_OK;
 }
 
-status_t procesar_fix_hdop (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_hdop (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   ad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
@@ -166,12 +160,11 @@ status_t procesar_fix_hdop (char **ptr2coma, struct fix_t *fix) {
   return ST_OK;
 }
 
-status_t procesar_fix_elevacion (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_elevacion (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   cad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
@@ -183,12 +176,11 @@ status_t procesar_fix_elevacion (char **ptr2coma, struct fix_t *fix) {
   return ST_OK;
 }
 
-status_t procesar_fix_sep_geoide (char **ptr2coma, struct fix_t *fix) {
+status_t procesar_fix_sep_geoide (char **ptr2coma, struct fix_t *fix, size_t i) {
 
   char cadena_aux[MAX_STR];	//cadena auxiliar
 	char *ctemp;				//puntero a char temporal, para strtod
 	double ntemp;				//double temporal
-  size_t i = 0;
 
   cad_entrecomas(ptr2coma,cadena_aux,i);
 	ntemp = strtod(cadena_aux, &ctemp);
