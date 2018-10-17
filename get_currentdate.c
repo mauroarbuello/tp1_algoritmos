@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "fix.h"
 
-void get_fechaactual(struct fecha_t* fecha, struct hora_t* hora){
+void get_currentdate(struct fecha_t* fecha, struct hora_t* hora){
 	
 	struct tm *tiempo;
 	time_t tiempo_seg;
