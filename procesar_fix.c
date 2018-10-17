@@ -57,7 +57,7 @@ status_t cad_entrecomas(char ** ptr2coma, char* cadena_aux, size_t pos_coma){
 	return ST_OK;
 }
 
-status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
+status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	char cadena_aux[MAX_STR];	//cadena auxiliar
 	char* ctemp;				//puntero a char temporal, para strtod
