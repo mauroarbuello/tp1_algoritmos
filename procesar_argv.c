@@ -4,8 +4,6 @@
 
 #define CHAR_ARG_LCMD_START	'-'
 
-#define MSJ_HELP	"Ayuda"
-
 #define STR_HELP_1 "-h"
 #define STR_HELP_2 "--help"
 #define STR_NAME_1 "-n"
@@ -22,6 +20,7 @@
 status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day);
 void get_fechaactual(struct fecha_t* fecha, struct hora_t* hora);
 void print_status(status_t st);
+void print_help (void);
 
 status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day){
 	
@@ -74,7 +73,7 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 	for(i=1;i<argc;i++){
 		if ( *(argv[i]) == CHAR_ARG_LCMD_START ){
 			if( (strcmp(argv[i],STR_HELP_1)==0) || (strcmp(argv[i],STR_HELP_2)==0))
-				printf("%s\n",MSJ_HELP);
+				print_help ();
 		
 			else if( (strcmp(argv[i],STR_NAME_1)==0 ) || (strcmp(argv[i],STR_NAME_2)==0) )
 				if ( (i+1) < argc){
