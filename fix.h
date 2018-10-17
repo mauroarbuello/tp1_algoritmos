@@ -47,5 +47,25 @@ typedef struct fix_t{	char nombre[MAX_NOMBRE];	//estructura con todos los datos 
 			float elevacion;
 			float sep_geoide;					
 			}fix_t;
+
+//Prototipos de funciones
+void get_currentdate(struct fecha_t * fecha, struct hora_t * hora);	//devuelve por referencia un fecha_t y hora_t con fecha y hora actual
+status_t proc_cad_fecha(char* fecha, int *year,int *month, int *day);	//recibe una cadena numerica ("yyyymmdd") y pasa por referencia el valor del año, mes y dia
+void proc_argv(int argc, char* argv[], struct fix_t *fix);		//procesa los arg por linea de comandos
+bool chk_gga(const char* cadena);					//chequea el gga de la cadena
+unsigned char nmea_checksum(const char *cadena);			//recibe una cadena y devuelve por retorno el valor de la suma EXOR
+bool verify_checksum(const char* str_origen);				//verifica que se cumple el checksum en una cadena
+status_t search_coma(char* cadena, char **ptr2ptrarray);		//recibe una cadena y devuelve por referencia una array de punteros a las comas de esa cadena
+status_t cad_entrecomas(char **ptr2coma, char* cadena_aux, size_t pos_coma);//recibe un array de punteros a comas y devuelve por referencia la cadena que se encuentra entre la coma pos_coma y la siguiente
+status_t proc_fix(char ** ptr2coma, struct fix_t *fix);		//procesa el fix a partir del array de punteros de comas que recibe
+//Funciones de impresión
+void print_status(status_t st);
+void print_encabezado(void);
+void print_metadata(struct fix_t * fix);
+void print_trk_start(void);
+void print_trkpt(struct fix_t* fix);
+void print_trk_end(void);
+void print_acabado(void);
+
 			
 #endif
