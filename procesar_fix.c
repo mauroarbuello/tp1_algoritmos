@@ -37,10 +37,13 @@ M Unidad (M, metros)
 ,, Secuencia de campos nulos para el receptor
 *69 suma de verificación (siempre comienza con *) */
 
-void cad_entrecomas(char ** ptr2coma, char* cadena_aux, size_t pos_coma){
+status_t cad_entrecomas(char ** ptr2coma, char* cadena_aux, size_t pos_coma){
 	
 	char *ptr2cad;				//puntero a comienzo de cadena nuevo
 	size_t i;				//variables de iteración
+	
+	if ( *(ptr2coma + pos_coma) == NULL)
+		return ST_ERR_PUNT_NULL;
 	
 	ptr2cad = *(ptr2coma + pos_coma) + 1; //comienzo la cadena en el caracter siguiente a la coma correspondiente a la pos_coma
 	
@@ -50,6 +53,8 @@ void cad_entrecomas(char ** ptr2coma, char* cadena_aux, size_t pos_coma){
 		
 	}
 	cadena_aux[i] = '\0';
+	
+	return ST_OK;
 }
 
 status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
@@ -60,7 +65,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	size_t i=0;
 	
 	//comienzo de procesar la hora del fix
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -85,7 +91,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	//comienzo de procesar la latitud
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -99,7 +106,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	
 	if ( (strcmp(cadena_aux, STR_SUR))!= 0 && (strcmp(cadena_aux,STR_NORTE)) != 0 )
 		return ST_ERR_FIX_INVALIDO;
@@ -112,7 +120,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -126,7 +135,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	
 	if ( (strcmp(cadena_aux, STR_OESTE))!= 0 && (strcmp(cadena_aux,STR_ESTE)) != 0 )
 		return ST_ERR_FIX_INVALIDO;
@@ -139,7 +149,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -156,7 +167,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (!cad_entrecomas(ptr2coma,cadena_aux,i))
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -173,7 +185,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -186,7 +199,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	//comienzo de procesar elevacion
 	i++;	//aumento 1 la posicion de comas
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -199,7 +213,8 @@ status_t procesar_fix(char ** ptr2coma,struct fix_t * fix){
 	//comienzo de procesar sep_geoide
 	i += 2; 	//le sumo 2, porque no me interesa el dato de la unidad de la elevacion
 	
-	cad_entrecomas(ptr2coma,cadena_aux,i);
+	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
+		return ST_ERR_FIX_INVALIDO;
 	ntemp = strtod(cadena_aux, &ctemp);
 	
 	if ( *ctemp != '\0' && *ctemp != '\n')
