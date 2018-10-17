@@ -17,12 +17,12 @@
 #define STR_DAY_1 "-d"
 #define STR_DAY_2 "--day"
 
-status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day);
+status_t proc_cad_fecha(char* fecha, int* year, int* month, int* day);
 void get_currentdate(struct fecha_t* fecha, struct hora_t* hora);
 void print_status(status_t st);
 void print_help (void);
 
-status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day){
+status_t proc_cad_fecha(char* fecha, int* year, int* month, int* day){
 	
 	char* temp;
 	long int ntemp; //numero temporario donde almaceno la fecha como 20180925 (ejemplo)
@@ -59,7 +59,7 @@ status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day){
 
 }
 
-void procesar_argv(int argc, char* argv[], struct fix_t* fix){
+void proc_argv(int argc, char* argv[], struct fix_t* fix){
 	
 	size_t i;
 	char* ptemp; //puntero a char auxiliar
