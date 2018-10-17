@@ -5,6 +5,7 @@
 #include "fix.h"
 
 #define NOMBRE_POR_DEFECTO		"archivo"
+#define CHAR_STR_START			'$'
 				
 /* int main(int argc, char* argv[]){
 	
@@ -76,11 +77,13 @@ int main(int argc, char* argv[]){
 	print_trk_start();
 	
 	while( fgets(str_actual,MAX_STR,stdin) != NULL ){
-		if ( chk_gga(str_actual) ){
-			if ( verify_checksum(str_actual) ){
-				search_coma(str_actual,array2comas);
-				if ( procesar_fix(array2comas,&fixactual) == ST_OK )
-					print_trkpt(&fixactual);
+		if ( *(str_actual) == CHAR_STR_START ){
+			if ( chk_gga(str_actual) ){
+				if ( verify_checksum(str_actual) ){
+					search_coma(str_actual,array2comas);
+					if ( procesar_fix(array2comas,&fixactual) == ST_OK )
+						print_trkpt(&fixactual);
+				}
 			}
 		}
 	}
