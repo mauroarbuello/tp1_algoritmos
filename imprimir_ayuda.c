@@ -104,19 +104,41 @@ void print_help (void) {
 
 }
 
-/*
-//formato de impresion de comandos.
-printf("%s %s\n", CMD_1, MSJ_);
-printf("%s %s\n", CMD_2, MSJ_);
+//ASI DE VE IMPRESO
+/* ---AYUDA---
 
-printf("%s\n", MSJ_CMD_EQ);
-printf("%s %s\n", MSJ_FORMATO, FORMATO_);
-printf("%s %s\n",MSJ_EJEMPLO , EJ_);
-printf("%s\n", SEPARADOR);
-*/
+Lista de comandos validos con sus respectivos formatos:
 
-int main (void) {
-
-  print_help ();
-
-}
+-n nombre
+--name nombre
+Ambos comandos son equivalentes.
+Formato esperado: maximo 50 caracteres
+Ejemplo: @1bocalaconchadetumadre1@
+----------------------
+-f fecha
+--format fecha
+Ambos comandos son equivalentes.
+Formato esperado: yyyymmdd
+Ejemplo: 20181016
+----------------------
+-Y año
+--year año
+Ambos comandos son equivalentes.
+Formato esperado: yyyy
+Ejemplo: 2018
+Condiciones de validez:  0 < yyy <= año actual
+----------------------
+-m mes
+--month mes
+Ambos comandos son equivalentes.
+Formato esperado: mm
+Ejemplo: 10
+Condiciones de validez:  1 - 12
+----------------------
+-d día
+--day día
+Ambos comandos son equivalentes.
+Formato esperado: dd
+Ejemplo: 16
+Condiciones de validez:  1 - 31
+---------------------- */
