@@ -153,7 +153,7 @@ void imprimir_ayuda (void) {
 
 }
 
-//ASI DE VE IMPRESO
+/*ASI DE VE IMPRESO
 ------AYUDA------
 
 ------------------------------------
@@ -208,3 +208,4 @@ Condiciones de validez:  1 - 31
 ------------------------------------
 /*En caso de un error de lectura, se tomaran los datos del sistema*/
 /*El largo máximo de la cadena a procesar es 500*/
+*/
