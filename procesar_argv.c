@@ -29,7 +29,7 @@ status_t proc_cad_fecha(char* fecha, int* year, int* month, int* day){
 	struct fecha_t fecha_actual, fecha_aux;	//en fecha_aux guardo los datos de la fecha y si son validos los guardo en los punteros que me pasaron
 	struct hora_t hora_actual;
 	
-	get_fechaactual(&fecha_actual,&hora_actual);
+	get_currentdate(&fecha_actual,&hora_actual);
 	
 	ntemp = strtol(fecha,&temp,10); // ntemp = yyyymmdd
 	
@@ -83,7 +83,7 @@ void proc_argv(int argc, char* argv[], struct fix_t* fix){
 			
 			else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0) ){
 				if ( (i+1) < argc){
-					if ( (st = procesar_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK )
+					if ( (st = proc_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK )
 						print_status(st);
 				}
 				else {	st = ST_ERR_MISSING_ARG;
