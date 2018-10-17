@@ -7,7 +7,7 @@
 
 bool chk_gga (const char *cadena) {
 
-  int i, j;//contadores
+  size_t i, j;//contadores
   char salida_chkgga[MAX_CMP4];
   char * ptr2coma;
   const char * coma = ",";
