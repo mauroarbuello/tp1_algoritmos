@@ -18,7 +18,7 @@
 #define STR_DAY_2 "--day"
 
 status_t procesar_cad_fecha(char* fecha, int* year, int* month, int* day);
-void get_fechaactual(struct fecha_t* fecha, struct hora_t* hora);
+void get_currentdate(struct fecha_t* fecha, struct hora_t* hora);
 void print_status(status_t st);
 void print_help (void);
 
@@ -68,7 +68,7 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 	struct hora_t hora_actual;
 	status_t st; //guardo la informacion del estado
 	
-	get_fechaactual(&(fecha_actual),&(hora_actual));//obtengo la fechaactual y lo guarda en fecha
+	get_currentdate(&(fecha_actual),&(hora_actual));//obtengo la fechaactual y lo guarda en fecha
 	
 	for(i=1;i<argc;i++){
 		if ( *(argv[i]) == CHAR_ARG_LCMD_START ){
