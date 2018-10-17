@@ -16,7 +16,7 @@ status_t search_coma (char * cadena, char ** ptr2ptrarray) {
 		}
 	}
 	
-	*(ptr2ptrarray+j)='\0';
+	*(ptr2ptrarray+j)=NULL; //el ultimo puntero del arreglo de punteros es NULL
 
 	return ST_OK;
 }
