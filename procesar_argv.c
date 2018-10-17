@@ -2,6 +2,8 @@
 #include <string.h>
 #include "fix.h"
 
+#define CHAR_ARG_LCMD_START	'-'
+
 #define MSJ_HELP	"Ayuda"
 
 #define STR_HELP_1 "-h"
@@ -70,43 +72,45 @@ void procesar_argv(int argc, char* argv[], struct fix_t* fix){
 	get_fechaactual(&(fecha_actual),&(hora_actual));//obtengo la fechaactual y lo guarda en fecha
 	
 	for(i=1;i<argc;i++){
-		if( (strcmp(argv[i],STR_HELP_1)==0) || (strcmp(argv[i],STR_HELP_2)==0))
-			printf("%s\n",MSJ_HELP);
+		if ( *(argv[i]) == CHAR_ARG_LCMD_START ){
+			if( (strcmp(argv[i],STR_HELP_1)==0) || (strcmp(argv[i],STR_HELP_2)==0))
+				printf("%s\n",MSJ_HELP);
 		
-		else if( (strcmp(argv[i],STR_NAME_1)==0 ) || (strcmp(argv[i],STR_NAME_2)==0) )
-			if ( (i+1) < argc){
-				strcpy(fix->nombre,argv[i+1]);
-			}
+			else if( (strcmp(argv[i],STR_NAME_1)==0 ) || (strcmp(argv[i],STR_NAME_2)==0) )
+				if ( (i+1) < argc){
+					strcpy(fix->nombre,argv[i+1]);
+				}
 		
-		else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0) ){
-			if ( (i+1) < argc){
-				if ( (st = procesar_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK )
+			else if( (strcmp(argv[i],STR_FECHA_1)==0) || (strcmp(argv[i],STR_FECHA_2)==0) ){
+				if ( (i+1) < argc){
+					if ( (st = procesar_cad_fecha(argv[i+1],&(fix->fecha.year),&(fix->fecha.month),&(fix->fecha.day))) != ST_OK )
+						print_status(st);
+				}
+				else {	st = ST_ERR_MISSING_ARG;
 					print_status(st);
+				}
 			}
-			else {	st = ST_ERR_MISSING_ARG;
-					print_status(st);
-			}
-		}
-		else if( (strcmp(argv[i],STR_YEAR_1)==0) || (strcmp(argv[i],STR_YEAR_2)==0) ){
-			if ( (i+1)<argc ){
-				ntemp = strtod(argv[i+1],&ptemp);
-				if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp <= fecha_actual.year) ) //compruebo que no sea un año mayor a este
+			else if( (strcmp(argv[i],STR_YEAR_1)==0) || (strcmp(argv[i],STR_YEAR_2)==0) ){
+				if ( (i+1)<argc ){
+					ntemp = strtod(argv[i+1],&ptemp);
+					if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp <= fecha_actual.year) ) //compruebo que no sea un año mayor a este
 					fix->fecha.year = ntemp;
+				}
 			}
-		}
 			
-		else if( (strcmp(argv[i],STR_MONTH_1) ==0) || (strcmp(argv[i],STR_MONTH_2)==0) ){
-			if ( (i+1)<argc ){
-				ntemp = strtod(argv[i+1],&ptemp);
-				if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 13 && ntemp > 0)  )
-					fix->fecha.month = ntemp;
+			else if( (strcmp(argv[i],STR_MONTH_1) ==0) || (strcmp(argv[i],STR_MONTH_2)==0) ){
+				if ( (i+1)<argc ){
+					ntemp = strtod(argv[i+1],&ptemp);
+					if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 13 && ntemp > 0)  )
+						fix->fecha.month = ntemp;
+				}
 			}
-		}
-		else if( (strcmp(argv[i],STR_DAY_1)==0) || (strcmp(argv[i],STR_DAY_2)==0) ){
-			if ( (i+1)<argc ){
-				ntemp = strtod(argv[i+1],&ptemp);
-				if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 32 && ntemp > 0) )
-					fix->fecha.day = ntemp;
+			else if( (strcmp(argv[i],STR_DAY_1)==0) || (strcmp(argv[i],STR_DAY_2)==0) ){
+				if ( (i+1)<argc ){
+					ntemp = strtod(argv[i+1],&ptemp);
+					if ( (*ptemp == '\n' || *ptemp == '\0') && ( ntemp < 32 && ntemp > 0) )
+						fix->fecha.day = ntemp;
+				}
 			}
 		}
 	}
