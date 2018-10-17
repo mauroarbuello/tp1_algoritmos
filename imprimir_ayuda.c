@@ -49,7 +49,7 @@
 #define VALIDEZ_YEAR "0 < yyy <= año actual"//chequear
 #define VALIDEZ_MES "1 - 12"
 #define VALIDEZ_DIA "1 - 31"
-void imprimir_ayuda (void) {
+void print_help (void) {
 
   printf("%s\n\n", MSJ_AYUDA_INICIO);
   printf("%s\n\n", MSJ_ARG_LCMD);
@@ -117,6 +117,6 @@ printf("%s\n", SEPARADOR);
 
 int main (void) {
 
-  imprimir_ayuda ();
+  print_help ();
 
 }
