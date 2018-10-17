@@ -154,40 +154,57 @@ void imprimir_ayuda (void) {
 }
 
 //ASI DE VE IMPRESO
-/* ---AYUDA---
+------AYUDA------
 
-Lista de comandos validos con sus respectivos formatos:
-
+------------------------------------
+------------------------------------
+#LISTA DE COMANDOS VALIDOS CON SUS RESPECTIVOS FORMATOS#
+------------------------------------
+-h
+--help
+Ambos comandos son equivalentes.
+/*Se muestra una ayuda*/
+------------------------------------
 -n nombre
 --name nombre
 Ambos comandos son equivalentes.
-Formato esperado: maximo 50 caracteres
-Ejemplo: @1bocalaconchadetumadre1@
-----------------------
+Formato esperado: max char leidos = 50
+Ejemplo: @1_nombre_1@
+/*Modifica el metadato nombre*/
+------------------------------------
 -f fecha
 --format fecha
 Ambos comandos son equivalentes.
 Formato esperado: yyyymmdd
 Ejemplo: 20181016
-----------------------
--Y año
+/*Modifica el metadato fecha*/
+------------------------------------
+-y año
 --year año
 Ambos comandos son equivalentes.
 Formato esperado: yyyy
 Ejemplo: 2018
-Condiciones de validez:  0 < yyy <= año actual
-----------------------
+Condiciones de validez:  0 < yyyy <= año actual
+/*Modifica el metadato año*/
+------------------------------------
 -m mes
 --month mes
 Ambos comandos son equivalentes.
 Formato esperado: mm
 Ejemplo: 10
 Condiciones de validez:  1 - 12
-----------------------
+/*Modifica el metadato mes*/
+------------------------------------
 -d día
 --day día
 Ambos comandos son equivalentes.
 Formato esperado: dd
 Ejemplo: 16
 Condiciones de validez:  1 - 31
----------------------- */
+/*Modifica el metadato dia*/
+------------------------------------
+------------------------------------
+#INFORMACION SOBRE EL PROGRAMA#
+------------------------------------
+/*En caso de un error de lectura, se tomaran los datos del sistema*/
+/*El largo máximo de la cadena a procesar es 500*/
