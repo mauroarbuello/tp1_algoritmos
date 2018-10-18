@@ -26,11 +26,11 @@ int main (int argc, char *argv[]) {
   size_t array_l;
 
 get_currentdate(&(fix->fecha),&(fix->hora)); //PATO, acordate de pedir la fecha al sistema cada vez que se ejectuta el programa
-strcpy(&(fix->nombre),NOMBRE_POR_DEFECTO);	//Y hay que copiar el nombre por defecto, por si no nos mandan ningun nombre
+strcpy(fix->nombre,NOMBRE_POR_DEFECTO);	//Y hay que copiar el nombre por defecto, por si no nos mandan ningun nombre
   proc_argv (argc, argv, fix);//&fix?? NO, solo fix (porque fix lo declaraste como un puntero)
 
   print_encabezado ();
-  print_metadata (*fix);//*fix porque fix es fix_t* y la funcion quiere el tipo fix_t
+  print_metadata (fix);//*fix porque fix es fix_t* y la funcion quiere el tipo fix_t
   print_trk_start ();
 
   while ( (fgets (cadena, MAX_STR, stdin)) != NULL ) {
@@ -44,7 +44,7 @@ strcpy(&(fix->nombre),NOMBRE_POR_DEFECTO);	//Y hay que copiar el nombre por defe
 
           proc_fix(ptr2comarray, fix);
 
-          print_trkpt (*fix);
+          print_trkpt (fix);
 		
         }//end if 3
 
