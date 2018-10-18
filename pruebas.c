@@ -13,6 +13,7 @@
 #include "print_help_def.c"
 #include "errores_def.c"
 
+#define NOMBRE_POR_DEFECTO "archivo"
 #define MIN_COMA_VALIDO 14
 
 int main (int argc, char *argv[]) {
@@ -24,10 +25,12 @@ int main (int argc, char *argv[]) {
   //char *c; //para verificar fgets
   size_t array_l;
 
-  proc_argv (argc, argv, &fix);//&fix??
+get_currentdate(&(fix->fecha),&(fix->hora)); //PATO, acordate de pedir la fecha al sistema cada vez que se ejectuta el programa
+strcpy(&(fix->nombre),NOMBRE_POR_DEFECTO);	//Y hay que copiar el nombre por defecto, por si no nos mandan ningun nombre
+  proc_argv (argc, argv, fix);//&fix?? NO, solo fix (porque fix lo declaraste como un puntero)
 
   print_encabezado ();
-  print_metadata (&fix);//&fix??
+  print_metadata (*fix);//*fix porque fix es fix_t* y la funcion quiere el tipo fix_t
   print_trk_start ();
 
   while ( (fgets (cadena, MAX_STR, stdin)) != NULL ) {
@@ -39,9 +42,9 @@ int main (int argc, char *argv[]) {
         search_coma (cadena, ptr2comarray);
         if ( (array_l = strlen (*ptr2comarray)) > (size_t) MIN_COMA_VALIDO) { //chequear que haga lo que quiero
 
-          proc_fix(ptr2comarray, &fix);
+          proc_fix(ptr2comarray, fix);
 
-          print_trkpt (fix);
+          print_trkpt (*fix);
 		
         }//end if 3
 
@@ -53,5 +56,6 @@ int main (int argc, char *argv[]) {
 
   print_trk_end ();
   print_acabado ();
-
+	 
+	return EXIT_SUCCESS; //acordate de poner un retorno, es int main, debe devolver un int;
 }//end main
