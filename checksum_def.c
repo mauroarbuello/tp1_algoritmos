@@ -20,14 +20,17 @@ bool verify_checksum(const char* str_origen){
 	unsigned char char_temp;
 	unsigned long int num_temp;
 
-	for( i=0; *(str_origen+i+1) != '*' ; i++){
+	for( i=0; *(str_origen+i+1) != '*' && *(str_origen+i+1) != '\0'; i++){
 		str_aux[i] = *(str_origen+i+1);
 	}
 
 	str_aux[i+1]= '\0';
 	char_temp = nmea_checksum(str_aux);
 	num_temp = strtoul((str_origen+i+2),&temp, 16);
-
+	
+	if (*temp != '\0' || *temp != '\n' )
+		return false;
+	
 	if (char_temp == num_temp)
 		return true;
 
