@@ -14,6 +14,12 @@ bool chk_gga (const char *cadena) {
   const char * coma = ",";
 
   ptr2coma = strstr (cadena, coma);
+  
+  //Esta es la coreccion que se hace para la reentrega.
+  //Se valida ptr2coma para el caso en que es nulo.
+  if (!ptr2coma) {
+    return false;
+  }
 
   for (i = 0, j = 3; j > 0; i++, j--) {
     salida_chkgga[i] = *(ptr2coma - j);
