@@ -5,15 +5,15 @@
 #include <string.h>
 #include "fix.h"
 
-status_t search_coma (char * cadena, char ** ptr2ptrarray) {
-	
-	if ( !cadena || !ptr2ptrarray )
-		return ST_ERR_PUNT_NULL;
+size_t search_coma (char * cadena, char ** ptr2ptrarray) {
 	
 	size_t j = 0;
 	size_t i;
 	const char coma = ',';
 
+	if ( !cadena || !ptr2ptrarray )
+		return 0;
+	
 
 	for (i = 0; cadena[i] != '\0' ; i++) {
 		if ( cadena[i] == coma) {
@@ -24,5 +24,5 @@ status_t search_coma (char * cadena, char ** ptr2ptrarray) {
 
 	*(ptr2ptrarray+j)=NULL; //el ultimo puntero del arreglo de punteros es NULL
 
-	return ST_OK;
+	return j;
 }

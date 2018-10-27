@@ -4,7 +4,7 @@
 #include <string.h>
 #include "fix.h"
 
-#define MIN_COMA_VALIDO 		14
+#define MIN_COMA_VALIDO 		13
 #define NOMBRE_POR_DEFECTO 		"archivo"
 #define CHAR_STR_START			'$'
 
@@ -44,7 +44,7 @@ int main (int argc, char *argv[]) {
   char * ptr2comarray [MAX_STR]; //hacer otro macro de menor longitud.
   //para guardar datos
   //char *c; //para verificar fgets
-  size_t array_l;
+  size_t i = 0;
 
   strcpy(fix.nombre,NOMBRE_POR_DEFECTO);	//le copio el nombre por defecto a la struct fix_t
 
@@ -52,34 +52,40 @@ int main (int argc, char *argv[]) {
 
   proc_argv (argc, argv, &fix);	//proceso los argumentos por linea de comandos, si hay nombre o fecha los piso con los que tengo
 
+  fprintf(stderr,"%s ; %d-%d-%d\n",fix.nombre,fix.fecha.year,fix.fecha.month,fix.fecha.day);
+  
   print_encabezado();	//imprimo el encabezado del archivo .gpx
   print_metadata(&fix);	//imprimo la metadata (nombre, fecha, un par de cosas más)
   print_trk_start();	//imprimo el comienzo de un track
 
   while ( (fgets (cadena, MAX_STR, stdin)) != NULL ) {
+	i++;
+	fprintf(stderr,"%s\n",cadena);
 	if ( *(cadena) == CHAR_STR_START ){		//compruebo que el primer caracter de la cadena sea $
-	
+		fprintf(stderr,"%s\n","$ok");
 		if ( (chk_gga (cadena) == true)) {
-
-			if ( (verify_checksum (cadena) == true) ) {
-
-				search_coma (cadena, ptr2comarray);
-				if ( (array_l = strlen (*ptr2comarray)) > (size_t) MIN_COMA_VALIDO) { //chequear que haga lo que quiero
-
+			fprintf(stderr,"%s\n","CHKGGAok");
+			if ( (verify_checksum(cadena)) == true ) {
+				fprintf(stderr,"%s\n","CHKSUMok");
+				fprintf(stderr,"%u\n",search_coma(cadena, ptr2comarray));
+				if ( search_coma(cadena, ptr2comarray) >= MIN_COMA_VALIDO ) { //chequear que haga lo que quiero
+					fprintf(stderr,"%s\n","MINVALok");
 					proc_fix(ptr2comarray, &fix);
 
 					print_trkpt (&fix);
-				}//end if 3
+				}//end if 4
 
-			}//end if 2
+			}//end if 3
 
-		}//end if 1
+		}//end if 2
 
-	}//end while
-  }
+	}//end if 1
+  }//end while
 
   print_trk_end ();
   print_acabado ();
+  
+  fprintf(stderr,"%li\n",i);
   
   return EXIT_SUCCESS;
 

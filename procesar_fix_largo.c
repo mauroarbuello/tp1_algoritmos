@@ -78,7 +78,7 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	ntemp -= fix->hora.hh*10000; 										//le saco las horas
 
-	if ( (fix->hora.mm = (int)ntemp/100) < 0 || fix->hora.mm > 59) //me fijo que sea un dia valido entre 0 y 59
+	if ( (fix->hora.mm = (int)ntemp/100) < 0 || fix->hora.mm > 59) //me fijo que sea una hora valida entre 0 y 59
 		return ST_ERR_FIX_INVALIDO;
 
 	ntemp -= fix->hora.mm*100;  // le saco los minutos
