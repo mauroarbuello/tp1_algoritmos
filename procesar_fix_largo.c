@@ -45,7 +45,10 @@ status_t cad_entrecomas(char ** ptr2coma, char* cadena_aux, size_t pos_coma){
 
 	if ( *(ptr2coma + pos_coma) == NULL)
 		return ST_ERR_PUNT_NULL;
-
+	
+	if ( *(ptr2coma + pos_coma + 1) == NULL)
+		return ST_ERR_PUNT_NULL;
+	
 	ptr2cad = *(ptr2coma + pos_coma) + 1; //comienzo la cadena en el caracter siguiente a la coma correspondiente a la pos_coma
 
 	for( i=0 ; (ptr2cad + i) != *(ptr2coma + pos_coma + 1) ; i++){ //itero hasta la otra coma
@@ -73,17 +76,17 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 	if ( *ctemp != '\0' && *ctemp != '\n')
 		return ST_ERR_FIX_INVALIDO;
 
-	if ( (fix->hora.hh = (int)ntemp/10000) < 0 ||  fix->hora.hh> 23 ) 	//me fijo que sea hora validos entre 0 y 23
+	if ( (fix->hora.hh = (int)ntemp/10000) < 0 ||  fix->hora.hh> 23 ) 	//me fijo que sea hora valida entre 0 y 23
 		return ST_ERR_FIX_INVALIDO;
 
 	ntemp -= fix->hora.hh*10000; 										//le saco las horas
 
-	if ( (fix->hora.mm = (int)ntemp/100) < 0 || fix->hora.mm > 59) //me fijo que sea un dia valido entre 0 y 59
+	if ( (fix->hora.mm = (int)ntemp/100) < 0 || fix->hora.mm > 59) //me fijo que sea minutos validos entre 0 y 59
 		return ST_ERR_FIX_INVALIDO;
 
 	ntemp -= fix->hora.mm*100;  // le saco los minutos
 
-	if ( (fix->hora.ss = ntemp) < 0 || fix->hora.ss >= 60  ) //me fijo que sea un dia valido entre 0 y 60
+	if ( (fix->hora.ss = ntemp) < 0 || fix->hora.ss > 60  ) //me fijo que sean segundos validos entre 0 y 59
 		return ST_ERR_FIX_INVALIDO;
 
 	//si no hubo ningun dato fuera de rango, quedaron guardadas las variables bien, sigo con el siguiente dato
@@ -110,8 +113,9 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
 		return ST_ERR_FIX_INVALIDO;
 
-	if ( (strcmp(cadena_aux, STR_SUR))!= 0 && (strcmp(cadena_aux,STR_NORTE)) != 0 )
+	if ( (strcmp(cadena_aux, STR_SUR))!= 0 && (strcmp(cadena_aux,STR_NORTE)) != 0 ) //compruebo que sea N o S
 		return ST_ERR_FIX_INVALIDO;
+	
 	if ( strcmp(cadena_aux, STR_SUR) == 0 )
 		fix->latitud *= -1;
 
@@ -123,6 +127,7 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
 		return ST_ERR_FIX_INVALIDO;
+	
 	ntemp = strtod(cadena_aux, &ctemp);
 
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -141,6 +146,7 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	if ( (strcmp(cadena_aux, STR_OESTE))!= 0 && (strcmp(cadena_aux,STR_ESTE)) != 0 )
 		return ST_ERR_FIX_INVALIDO;
+	
 	if ( strcmp(cadena_aux, STR_OESTE) == 0 )
 		fix->longitud *= -1;
 
@@ -152,6 +158,7 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
 		return ST_ERR_FIX_INVALIDO;
+	
 	ntemp = strtod(cadena_aux, &ctemp);
 
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -168,8 +175,9 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	i++;	//aumento 1 la posicion de comas
 
-	if (!cad_entrecomas(ptr2coma,cadena_aux,i))
+	if ( cad_entrecomas(ptr2coma,cadena_aux,i)!= ST_OK )
 		return ST_ERR_FIX_INVALIDO;
+	
 	ntemp = strtod(cadena_aux, &ctemp);
 
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -188,6 +196,7 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
 		return ST_ERR_FIX_INVALIDO;
+	
 	ntemp = strtod(cadena_aux, &ctemp);
 
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -202,6 +211,7 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
 		return ST_ERR_FIX_INVALIDO;
+	
 	ntemp = strtod(cadena_aux, &ctemp);
 
 	if ( *ctemp != '\0' && *ctemp != '\n')
@@ -216,6 +226,7 @@ status_t proc_fix(char ** ptr2coma,struct fix_t * fix){
 
 	if (cad_entrecomas(ptr2coma,cadena_aux,i) != ST_OK)
 		return ST_ERR_FIX_INVALIDO;
+	
 	ntemp = strtod(cadena_aux, &ctemp);
 
 	if ( *ctemp != '\0' && *ctemp != '\n')
